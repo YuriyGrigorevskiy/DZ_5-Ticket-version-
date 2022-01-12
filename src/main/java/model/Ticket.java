@@ -11,7 +11,6 @@ public class Ticket {
         return false;
     }
 
-    
     @Override
     public int hashCode() {
         // todo

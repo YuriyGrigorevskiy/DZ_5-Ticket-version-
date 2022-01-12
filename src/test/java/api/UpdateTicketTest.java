@@ -1,17 +1,23 @@
 package api;
 
+import model.Status;
 import model.Ticket;
 import org.testng.annotations.Test;
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.sessionId;
 
 /** Обновление тикета */
 public class UpdateTicketTest extends BaseTest {
 
     @Test
     public void updateTicketTest() {
-        // todo: создать тикет со статусом Closed, затем обновить тикет и проверить сообщение об ошибке (негативный сценарий)
-    }
-
-    private void updateTicketNegative(Ticket ticket) {
-        // todo: отправить HTTP запрос для обновления данных тикета и сразу же проверить статус код (должен соответствовать ошибке)
+        Ticket ticket = createTicket( buildNewTicket(Status.CLOSED,2));
+        ticket.setStatus(1);
+                given()
+                .body(ticket)
+                .when()
+                .put("/api/tickets/")
+                .then()
+                .statusCode(405);
     }
 }

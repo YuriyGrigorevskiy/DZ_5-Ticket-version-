@@ -5,8 +5,7 @@ import model.Ticket;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.sessionId;
+import static io.restassured.RestAssured.*;
 
 /** Создание и проверка тикета */
 public class CreateTicketTest extends BaseTest {
@@ -17,11 +16,17 @@ public class CreateTicketTest extends BaseTest {
         Ticket ticket = createTicket( buildNewTicket(Status.OPEN,2));
         Assert.assertNotNull(Ticket.class);
 
+        getTicket(ticket.getId());
+    }
+
+    protected Ticket getTicket(int id) {
         given()
-                .pathParam("id", ticket.getId() )
+                .spec(requestSpecification)
+                .pathParam("id", id)
                 .when()
                 .get("/api/tickets/{id}")
                 .then()
                 .statusCode(200);
+        return null;
     }
 }
